@@ -206,11 +206,6 @@ public class FalconxWSOrderClient {
             System.out.println("Auth Successful: " + message);
 
             return this.SendNewOrderRequest(session);
-
-            // Fetch data
-            // return this.FetchData(session, "max_levels");
-            // return this.FetchData(session, "max_connections");
-            // return this.FetchData(session, "allowed_markets");
           } else {
             System.out.println("Authentication Failed: " + message);
           }
