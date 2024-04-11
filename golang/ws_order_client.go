@@ -1,5 +1,5 @@
-//go:build sample_o
-// +build sample_o
+//go:build ws_order_client
+// +build ws_order_client
 
 package main
 
