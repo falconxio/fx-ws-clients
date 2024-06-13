@@ -75,6 +75,7 @@
         <archive>
           <manifest>
             <mainClass>com.falconx.wsclient.FalconxWSClient</mainClass>
+            <mainClass>com.falconx.wsclient.FalconxWSOrderClient</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>
