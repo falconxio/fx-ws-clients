@@ -300,7 +300,9 @@ func (fws *FalconxWSClient) ReadMessages() {
 					log.Println("Authentication Successful", data)
 					fws.authenticated = true
 				}
-				fws.responseChan <- fws.authenticated
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.responseChan <- fws.authenticated
+				}
 			}
 		case "error_response":
 			{
@@ -320,7 +322,9 @@ func (fws *FalconxWSClient) ReadMessages() {
 				if err != nil {
 					log.Println("Error: ", err)
 				}
-				fws.OrderIdFromResponse <- orderResponse.OrderID
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.OrderID
+				}
 			}
 		case "order_response":
 			{
@@ -334,7 +338,9 @@ func (fws *FalconxWSClient) ReadMessages() {
 				if err != nil {
 					log.Println("Error: ", err)
 				}
-				fws.OrderIdFromResponse <- orderResponse.ClientOrderID
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.ClientOrderID
+				}
 			}
 		case "create_order_ack":
 			{
@@ -348,7 +354,9 @@ func (fws *FalconxWSClient) ReadMessages() {
 				if err != nil {
 					log.Println("Error: ", err)
 				}
-				fws.OrderIdFromResponse <- orderResponse.OrderID
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.OrderID
+				}
 			}
 		default:
 			{
