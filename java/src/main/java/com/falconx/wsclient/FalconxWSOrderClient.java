@@ -221,6 +221,16 @@ public class FalconxWSOrderClient {
           System.out.println(message);
           break;
         }
+        case "cancel_order_ack": {
+          System.out.println("Received Cancel Order Acknowledgement -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "update_order_ack": {
+          System.out.println("Received Update Order Acknowledgement -------------------------- ");
+          System.out.println(message);
+          break;
+        }
         case "order_response": {
           System.out.println("Received Order Request Response -------------------------- ");
           System.out.println(message);

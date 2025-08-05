@@ -358,6 +358,38 @@ func (fws *FalconxWSClient) ReadMessages() {
 					fws.OrderIdFromResponse <- orderResponse.OrderID
 				}
 			}
+		case "cancel_order_ack":
+			{
+				log.Println("Cancel Order Ack: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.OrderID
+				}
+			}
+		case "update_order_ack":
+			{
+				log.Println("Update Order Ack: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.OrderID
+				}
+			}
 		default:
 			{
 				log.Println("Unknown Event: ", data.Event, data.Body)

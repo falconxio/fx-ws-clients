@@ -124,7 +124,7 @@ class FalconxWSClient:
             logging.error(f"Error Response received. Error: {data.get('error')}")
             self.response_event.set()
             
-        elif event in ['order_update', 'order_response', 'create_order_ack']:
+        elif event in ['order_update', 'order_response', 'create_order_ack', 'cancel_order_ack', 'update_order_ack']:
             logging.info(f"{event}: {data.get('body')}")
             body = data.get('body', {})
             order_id = body.get('order_id') or body.get('client_order_id')
