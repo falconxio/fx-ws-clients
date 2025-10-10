@@ -300,47 +300,7 @@ func (fws *FalconxWSClient) ReadMessages() {
 					log.Println("Authentication Successful", data)
 					fws.authenticated = true
 				}
-				if len(fws.OrderIdFromResponse) == 0 {
-					fws.responseChan <- fws.authenticated
-				}
-			}
-		case "error_response":
-			{
-				log.Println("Error Response received. Err: ", data.Error, data.Body)
-				fws.responseChan <- false
-			}
-		case "order_update":
-			{
-				log.Println("Order Update: ", data.Body)
-
-				var orderResponse OrderResponse
-
-				rawData, _ := json.Marshal(data.Body)
-
-				err := json.Unmarshal(rawData, &orderResponse)
-
-				if err != nil {
-					log.Println("Error: ", err)
-				}
-				if len(fws.OrderIdFromResponse) == 0 {
-					fws.OrderIdFromResponse <- orderResponse.OrderID
-				}
-			}
-		case "order_response":
-			{
-				log.Println("Order Response: ", data.Body)
-
-				var orderResponse OrderResponse
-				rawData, _ := json.Marshal(data.Body)
-
-				err := json.Unmarshal(rawData, &orderResponse)
-
-				if err != nil {
-					log.Println("Error: ", err)
-				}
-				if len(fws.OrderIdFromResponse) == 0 {
-					fws.OrderIdFromResponse <- orderResponse.ClientOrderID
-				}
+				fws.responseChan <- fws.authenticated
 			}
 		case "create_order_ack":
 			{
@@ -354,9 +314,152 @@ func (fws *FalconxWSClient) ReadMessages() {
 				if err != nil {
 					log.Println("Error: ", err)
 				}
-				if len(fws.OrderIdFromResponse) == 0 {
-					fws.OrderIdFromResponse <- orderResponse.OrderID
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "create_order_accepted":
+			{
+				log.Println("Create Order Accepted: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
 				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "create_order_rejected":
+			{
+				log.Println("Create Order Rejected: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "update_order_ack":
+			{
+				log.Println("Update Order Ack: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "update_order_accepted":
+			{
+				log.Println("Update Order Accepted: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "update_order_rejected":
+			{
+				log.Println("Update Order Rejected: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "cancel_order_ack":
+			{
+				log.Println("Cancel Order Ack: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "cancel_order_accepted":
+			{
+				log.Println("Cancel Order Accepted: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "cancel_order_rejected":
+			{
+				log.Println("Cancel Order Rejected: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.OrderID
+			}
+		case "order_rejected":
+			{
+				log.Println("Order Rejected: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.ClientOrderID
+			}
+		case "order_response":
+			{
+				log.Println("Order Response: ", data.Body)
+
+				var orderResponse OrderResponse
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				fws.OrderIdFromResponse <- orderResponse.ClientOrderID
+			}
+		case "error_response":
+			{
+				log.Println("Error Response received. Err: ", data.Error, data.Body)
+				fws.responseChan <- false
 			}
 		default:
 			{
