@@ -442,6 +442,23 @@ func (fws *FalconxWSClient) ReadMessages() {
 				}
 				fws.OrderIdFromResponse <- orderResponse.ClientOrderID
 			}
+		case "order_update":
+			{
+				log.Println("Order Update: ", data.Body)
+
+				var orderResponse OrderResponse
+
+				rawData, _ := json.Marshal(data.Body)
+
+				err := json.Unmarshal(rawData, &orderResponse)
+
+				if err != nil {
+					log.Println("Error: ", err)
+				}
+				if len(fws.OrderIdFromResponse) == 0 {
+					fws.OrderIdFromResponse <- orderResponse.OrderID
+				}
+			}
 		case "order_response":
 			{
 				log.Println("Order Response: ", data.Body)
