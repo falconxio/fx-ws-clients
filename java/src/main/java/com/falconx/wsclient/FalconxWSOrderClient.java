@@ -261,6 +261,11 @@ public class FalconxWSOrderClient {
           System.out.println(message);
           break;
         }
+        case "order_response": {
+          System.out.println("Received Order Request Response -------------------------- ");
+          System.out.println(message);
+          break;
+        }
         case "order_rejected": {
           System.out.println("Received Order Rejected -------------------------- ");
           System.out.println(message);
