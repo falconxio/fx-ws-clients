@@ -211,18 +211,63 @@ public class FalconxWSOrderClient {
           }
           break;
         }
-        case "order_update": {
-          System.out.println("Received Order Update -------------------------- ");
-          System.out.println(message);
-          break;
-        }
         case "create_order_ack": {
           System.out.println("Received Create Order Acknowledgement -------------------------- ");
           System.out.println(message);
           break;
         }
+        case "create_order_accepted": {
+          System.out.println("Received Create Order Accepted -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "create_order_rejected": {
+          System.out.println("Received Create Order Rejected -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "update_order_ack": {
+          System.out.println("Received Update Order Acknowledgement -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "update_order_accepted": {
+          System.out.println("Received Update Order Accepted -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "update_order_rejected": {
+          System.out.println("Received Update Order Rejected -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "cancel_order_ack": {
+          System.out.println("Received Cancel Order Acknowledgement -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "cancel_order_accepted": {
+          System.out.println("Received Cancel Order Accepted -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "cancel_order_rejected": {
+          System.out.println("Received Cancel Order Rejected -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "order_update": {
+          System.out.println("Received Order Update -------------------------- ");
+          System.out.println(message);
+          break;
+        }
         case "order_response": {
           System.out.println("Received Order Request Response -------------------------- ");
+          System.out.println(message);
+          break;
+        }
+        case "order_rejected": {
+          System.out.println("Received Order Rejected -------------------------- ");
           System.out.println(message);
           break;
         }
