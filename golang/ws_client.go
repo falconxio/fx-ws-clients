@@ -48,13 +48,15 @@ type SubscribeRequest struct {
 	BaseToken  string         `json:"base_token"`
 	QuoteToken string         `json:"quote_token"`
 	Quantity   QuantityLevels `json:"quantity"`
+	Tenor      *string        `json:"tenor,omitempty"`
 }
 
 type UnSubscribeRequest struct {
-	RequestId  string `json:"request_id"`
-	Action     string `json:"action"`
-	BaseToken  string `json:"base_token"`
-	QuoteToken string `json:"quote_token"`
+	RequestId  string  `json:"request_id"`
+	Action     string  `json:"action"`
+	BaseToken  string  `json:"base_token"`
+	QuoteToken string  `json:"quote_token"`
+	Tenor      *string `json:"tenor,omitempty"`
 }
 
 type DataRequest struct {
@@ -189,7 +191,7 @@ func (fws *FalconxWSClient) Authenticate() (bool, error) {
 	return <-fws.authResponse, nil
 }
 
-func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clientRequestId string, levels []float64, quantityToken string) (bool, error) {
+func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clientRequestId string, levels []float64, quantityToken string, tenor *string) (bool, error) {
 	req := SubscribeRequest{
 		Action:     "subscribe",
 		RequestId:  clientRequestId,
@@ -199,6 +201,7 @@ func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clien
 			Token:  quantityToken,
 			Levels: levels,
 		},
+		Tenor: tenor,
 	}
 	log.Println("Sending request -> ", req)
 	err := fws.Conn.WriteJSON(req)
@@ -210,12 +213,13 @@ func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clien
 	return true, nil
 }
 
-func (fws *FalconxWSClient) UnSubscribe(baseToken string, quoteToken string, clientRequestId string) (bool, error) {
+func (fws *FalconxWSClient) UnSubscribe(baseToken string, quoteToken string, clientRequestId string, tenor *string) (bool, error) {
 	req := UnSubscribeRequest{
 		Action:     "unsubscribe",
 		RequestId:  clientRequestId,
 		BaseToken:  baseToken,
 		QuoteToken: quoteToken,
+		Tenor:      tenor,
 	}
 	log.Println("Sending request -> ", req)
 	err := fws.Conn.WriteJSON(req)
@@ -327,13 +331,23 @@ func AuthenticateAndSubscribe(fxClient *FalconxWSClient) {
 		log.Fatal("Unable to authenticate. Err: ", err)
 	} else {
 		log.Println("Trying to subscribe")
-		success, err := fxClient.Subscribe("ETH", "USD", "fx_ws_06102023", []float64{0.1, 1}, "ETH")
+		var success bool
+		var err error
+
+		// For crypto pairs
+		success, err = fxClient.Subscribe("ETH", "USD", "fx_ws_06102023", []float64{0.1, 1}, "ETH", nil)
+
+		// For forex pairs
+		// tenor := "T0"
+		// success, err = fxClient.Subscribe("EUR", "USD", "fx_ws_24121994", []float64{500, 10000}, "EUR", &tenor)
+
 		if !success {
 			log.Fatal("Unable to Subscribe. Err: ", err)
 		}
 
-		// time.Sleep(5 * time.Second)
+		// time.Sleep(5* time.Second)
 		// fxClient.UnSubscribe("ETH", "USD", "fx_ws_06102023")
+		// fxClient.UnSubscribe("EUR", "USD", "fx_ws_24121994", &tenor)
 	}
 }
 
