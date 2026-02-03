@@ -128,6 +128,7 @@ class FXClient {
   }
 
   subscribe(){
+    // For crypto pairs
     const subscription_request = {
       "base_token": "ETH",
       "quote_token": "USD",
@@ -139,16 +140,39 @@ class FXClient {
       "action": "subscribe"
     }
 
+    // For forex pairs
+    // const subscription_request = {
+    //   "base_token": "EUR",
+    //   "quote_token": "USD",
+    //   "quantity": {
+    //     "token": "EUR",
+    //     "levels": [500, 10000]
+    //   },
+    //   "tenor": "T0",
+    //   "request_id": "my_request_2",
+    //   "action": "subscribe",
+    // }
+
     this.connection.send(JSON.stringify(subscription_request));
   }
 
   unsubscribe(){
+    // For crypto pairs
     const subscription_request = {
       "base_token": "ETH",
       "quote_token": "USD",
-      "request_id": "my_request_2",
+      "request_id": "my_request_1",
       "action": "unsubscribe"
     }
+
+    // For forex pairs
+    // const subscription_request = {
+    //   "base_token": "EUR",
+    //   "quote_token": "USD",
+    //   "tenor": "T0",
+    //   "request_id": "my_request_2",
+    //   "action": "unsubscribe",
+    // }
 
     this.connection.send(JSON.stringify(subscription_request));
   }
@@ -171,12 +195,12 @@ class FXClient {
   }
 }
 
-const url = "stream.falconx.io"
-const path = "/price.tickers"
-
 apiKey = "xxx"
 secretKey = "xxx"
 passphrase = "xxx"
+
+const url = "stream.falconx.io"
+const path = "/price.tickers"
 
 var fxStreamingClient = new FXClient(url, path, true, apiKey, passphrase, secretKey);
 
