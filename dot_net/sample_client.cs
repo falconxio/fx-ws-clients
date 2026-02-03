@@ -21,6 +21,7 @@ namespace FXWSClient.Sample
     public string? quote_token { get; set; }
     public Quantity? quantity { get; set; }
     public string? request_id { get; set; }
+    public string? tenor { get; set; }
   }
 
   public class UnSubscribeRequest
@@ -29,6 +30,7 @@ namespace FXWSClient.Sample
     public string? base_token { get; set; }
     public string? quote_token { get; set; }
     public string? request_id { get; set; }
+    public string? tenor { get; set; }
   }
 
   public class DataRequest
@@ -114,6 +116,7 @@ namespace FXWSClient.Sample
       if (this.conn?.State == WebSocketState.Open)
       {
 
+        // For crypto pairs
         SubscribeRequest subscriberequest = new SubscribeRequest
         {
           action = "subscribe",
@@ -126,6 +129,21 @@ namespace FXWSClient.Sample
           },
           request_id = "my_sample_request_1"
         };
+
+        // For forex pairs
+        // SubscribeRequest subscriberequest = new SubscribeRequest
+        // {
+        //   action = "subscribe",
+        //   base_token = "EUR",
+        //   quote_token = "USD",
+        //   quantity = new Quantity
+        //   {
+        //     token = "EUR",
+        //     levels = new double[] { 500, 10000 }
+        //   },
+        //   request_id = "my_sample_request_2",
+        //   tenor = "T0"
+        // };
 
         Console.WriteLine(JsonConvert.SerializeObject(subscriberequest));
         var encoded = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(subscriberequest));
@@ -144,6 +162,7 @@ namespace FXWSClient.Sample
       if (this.conn?.State == WebSocketState.Open)
       {
 
+        // For crypto pairs
         UnSubscribeRequest unSubscriberequest = new UnSubscribeRequest
         {
           action = "unsubscribe",
@@ -151,6 +170,16 @@ namespace FXWSClient.Sample
           quote_token = "USD",
           request_id = "my_sample_request_1"
         };
+
+        // For forex pairs
+        // UnSubscribeRequest unSubscriberequest = new UnSubscribeRequest
+        // {
+        //   action = "unsubscribe",
+        //   base_token = "EUR",
+        //   quote_token = "USD",
+        //   request_id = "my_sample_request_2",
+        //   tenor = "T0"
+        // };
 
         Console.WriteLine(JsonConvert.SerializeObject(unSubscriberequest));
         var encoded = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(unSubscriberequest));
