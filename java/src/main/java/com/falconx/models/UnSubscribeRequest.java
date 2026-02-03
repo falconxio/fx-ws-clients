@@ -14,10 +14,11 @@ public class UnSubscribeRequest {
     @JsonProperty("request_id")
     public String requestId;
 
-    public UnSubscribeRequest(String baseToken, String quoteToken, String requestId) {
+    public UnSubscribeRequest(String baseToken, String quoteToken, String requestId, String tenor = null) {
       this.action = "unsubscribe";
       this.baseToken = baseToken;
       this.quoteToken = quoteToken;
-      this.requestId = requestId;
+      this.requestId = requestId; 
+      this.tenor = tenor;
     }
 }
