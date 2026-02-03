@@ -77,11 +77,18 @@ public class FalconxWSClient {
   }
 
   public String Subscribe(Session session) {
-    List<Double> levels = new ArrayList<>();
-    levels.add(0.5);
-    levels.add(1.0);
-    levels.add(5.0);
-    SubscribeRequest request = new SubscribeRequest("ETH", "USD", "ETH", levels, "my_subscribe_request");
+    List<Double> cryptoLevels = new ArrayList<>();
+    cryptoLevels.add(0.5);
+    cryptoLevels.add(1.0);
+    cryptoLevels.add(5.0);
+    SubscribeRequest request = new SubscribeRequest("ETH", "USD", "ETH", cryptoLevels, "my_subscribe_request_1");
+
+    // For forex pairs
+    // List<Double> forexLevels = new ArrayList<>();
+    // forexLevels.add(500.0);
+    // forexLevels.add(10000.0);
+    // SubscribeRequest request = new SubscribeRequest("EUR", "USD", "EUR", forexLevels, "my_subscribe_request_2", "T0");
+
     ObjectMapper mapper = new ObjectMapper();
     try {
       return mapper.writeValueAsString(request);
@@ -103,7 +110,11 @@ public class FalconxWSClient {
   }
 
   public String UnSubscribe(Session session) {
+    // For crypto pairs
     UnSubscribeRequest request = new UnSubscribeRequest("ETH", "USD", "my_unsubscribe_request");
+    
+    // For forex pairs
+    // UnSubscribeRequest request = new UnSubscribeRequest("EUR", "USD", "my_unsubscribe_request_2", "T0");
     ObjectMapper mapper = new ObjectMapper();
     try {
       return mapper.writeValueAsString(request);

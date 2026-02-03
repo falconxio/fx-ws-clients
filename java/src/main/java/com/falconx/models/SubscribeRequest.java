@@ -19,11 +19,12 @@ public class SubscribeRequest {
     public String requestId;
 
     public SubscribeRequest(String baseToken, String quoteToken, String quantityToken,
-        List<Double> levels, String requestId) {
+        List<Double> levels, String requestId, String tenor = null) {
       this.action = "subscribe";
       this.baseToken = baseToken;
       this.quoteToken = quoteToken;
       this.quantity = new Quantity(quantityToken, levels);
       this.requestId = requestId;
+      this.tenor = tenor;
     }
 }
