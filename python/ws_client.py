@@ -141,6 +141,7 @@ class FalconXWSClient:
         self.conn.send(data=json.dumps(req))
 
     def subscribe(self):
+        # For crypto pairs
         subscription_request = {
             "base_token": "ETH",
             "quote_token": "USD",
@@ -151,15 +152,40 @@ class FalconXWSClient:
             "request_id": "my_request_1",
             "action": "subscribe"
         }
+
+        # For forex pairs
+        # subscription_request = {
+        #     "base_token": "EUR",
+        #     "quote_token": "USD",
+        #     "quantity": {
+        #         "token": "EUR",
+        #         "levels": [500, 10000]
+        #     },
+        #     "tenor": "T0",
+        #     "request_id": "my_request_2",
+        #     "action": "subscribe",
+        # }
+
         self.conn.send(data=json.dumps(subscription_request))
 
     def unsubscribe(self, base_token, quote_token):
+        # For crypto pairs
         unsubscription_request = {
             "base_token": base_token,
             "quote_token": quote_token,
             "request_id": "my_request_1",
             "action": "unsubscribe"
         }
+
+        # For forex pairs
+        # unsubscription_request = {
+        #     "base_token": "EUR",
+        #     "quote_token": "USD",
+        #     "tenor": "T0",
+        #     "request_id": "my_request_2",
+        #     "action": "unsubscribe",
+        # }
+
         self.conn.send(data=json.dumps(unsubscription_request))
 
     def fetch_data(self, type_of_data):
@@ -172,11 +198,12 @@ class FalconXWSClient:
 
 
 if __name__ == "__main__":
-    path = "/price.tickers"
-    host = "stream.falconx.io"
     api_key = 'xxx'
     passphrase = "xxx"
     secret_key = "xxx"
+
+    path = "/price.tickers"
+    host = "stream.falconx.io"
 
     connection_opts = ConnectionOpts(retry_on_error=True, num_retries=5, retry_delay=1)
 
