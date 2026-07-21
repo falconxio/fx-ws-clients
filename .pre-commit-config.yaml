@@ -1,0 +1,14 @@
+
+repos:
+- repo: https://github.com/returntocorp/semgrep
+  rev: 'v1.56.0'
+  hooks:
+    - id: semgrep
+      # See https://semgrep.dev/explore to select a ruleset and copy its URL
+      args: ['--config', 'p/secrets', '--error', '--skip-unknown-extensions']
+- repo: https://github.com/returntocorp/semgrep
+  rev: 'v1.56.0'
+  hooks:
+    - id: semgrep
+      # See https://semgrep.dev/explore to select a ruleset and copy its URL
+      args: ['--config', 'p/gitleaks', '--error', '--skip-unknown-extensions']
