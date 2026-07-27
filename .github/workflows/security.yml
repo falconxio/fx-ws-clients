@@ -16,6 +16,11 @@ on:
     - cron: '33 5 * * 1'
     # It is recommended to change the schedule to a random time.
 
+permissions:
+  actions: read
+  contents: read
+  pull-requests: read
+
 jobs:
   # Calling Security Reusable action which would in turn call other reusable actions example - Semgrep
   call_security:
