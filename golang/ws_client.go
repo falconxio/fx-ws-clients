@@ -45,8 +45,9 @@ type QuantityLevels struct {
 type SubscribeRequest struct {
 	RequestId  string         `json:"request_id"`
 	Action     string         `json:"action"`
-	BaseToken  string         `json:"base_token"`
-	QuoteToken string         `json:"quote_token"`
+	BaseToken  *string        `json:"base_token,omitempty"`
+	QuoteToken *string        `json:"quote_token,omitempty"`
+	Symbol     *string        `json:"symbol,omitempty"`
 	Quantity   QuantityLevels `json:"quantity"`
 	Tenor      *string        `json:"tenor,omitempty"`
 }
@@ -54,8 +55,9 @@ type SubscribeRequest struct {
 type UnSubscribeRequest struct {
 	RequestId  string  `json:"request_id"`
 	Action     string  `json:"action"`
-	BaseToken  string  `json:"base_token"`
-	QuoteToken string  `json:"quote_token"`
+	BaseToken  *string `json:"base_token,omitempty"`
+	QuoteToken *string `json:"quote_token,omitempty"`
+	Symbol     *string `json:"symbol,omitempty"`
 	Tenor      *string `json:"tenor,omitempty"`
 }
 
@@ -191,12 +193,13 @@ func (fws *FalconxWSClient) Authenticate() (bool, error) {
 	return <-fws.authResponse, nil
 }
 
-func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clientRequestId string, levels []float64, quantityToken string, tenor *string) (bool, error) {
+func (fws *FalconxWSClient) Subscribe(baseToken *string, quoteToken *string, symbol *string, clientRequestId string, levels []float64, quantityToken string, tenor *string) (bool, error) {
 	req := SubscribeRequest{
 		Action:     "subscribe",
 		RequestId:  clientRequestId,
 		BaseToken:  baseToken,
 		QuoteToken: quoteToken,
+		Symbol:     symbol,
 		Quantity: QuantityLevels{
 			Token:  quantityToken,
 			Levels: levels,
@@ -213,12 +216,13 @@ func (fws *FalconxWSClient) Subscribe(baseToken string, quoteToken string, clien
 	return true, nil
 }
 
-func (fws *FalconxWSClient) UnSubscribe(baseToken string, quoteToken string, clientRequestId string, tenor *string) (bool, error) {
+func (fws *FalconxWSClient) UnSubscribe(baseToken *string, quoteToken *string, symbol *string, clientRequestId string, tenor *string) (bool, error) {
 	req := UnSubscribeRequest{
 		Action:     "unsubscribe",
 		RequestId:  clientRequestId,
 		BaseToken:  baseToken,
 		QuoteToken: quoteToken,
+		Symbol:     symbol,
 		Tenor:      tenor,
 	}
 	log.Println("Sending request -> ", req)
@@ -335,19 +339,34 @@ func AuthenticateAndSubscribe(fxClient *FalconxWSClient) {
 		var err error
 
 		// For crypto pairs
-		success, err = fxClient.Subscribe("ETH", "USD", "fx_ws_06102023", []float64{0.1, 1}, "ETH", nil)
+		// baseToken, quoteToken := "ETH", "USD"
+		// success, err = fxClient.Subscribe(&baseToken, &quoteToken, nil, "fx_ws_06102023", []float64{0.1}, baseToken, nil)
 
 		// For forex pairs
+		// baseToken, quoteToken := "EUR", "USD"
 		// tenor := "T0"
-		// success, err = fxClient.Subscribe("EUR", "USD", "fx_ws_24121994", []float64{500, 10000}, "EUR", &tenor)
+		// success, err = fxClient.Subscribe(&baseToken, &quoteToken, nil, "fx_ws_24121994", []float64{500}, baseToken, &tenor)
+
+		// For TRS markets
+		// symbol := "TRS-BTC-USD-8H"
+		// baseToken := "BTC"
+		// success, err = fxClient.Subscribe(nil, nil, &symbol, "fx_ws_trs_01", []float64{1.0}, "BTC", nil)
 
 		if !success {
 			log.Fatal("Unable to Subscribe. Err: ", err)
 		}
 
-		// time.Sleep(5* time.Second)
-		// fxClient.UnSubscribe("ETH", "USD", "fx_ws_06102023")
-		// fxClient.UnSubscribe("EUR", "USD", "fx_ws_24121994", &tenor)
+		time.Sleep(5 * time.Second)
+
+		log.Println("Unsubscribing now")
+		// For crypto pairs
+		// fxClient.UnSubscribe(&baseToken, &quoteToken, nil, "fx_ws_06102023", nil)
+
+		// For forex pairs
+		// fxClient.UnSubscribe(&baseToken, &quoteToken, nil, "fx_ws_24121994", &tenor)
+
+		// For TRS markets
+		// fxClient.UnSubscribe(nil, nil, &symbol, "fx_ws_trs_01", nil)
 	}
 }
 

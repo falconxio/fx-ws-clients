@@ -153,6 +153,17 @@ class FXClient {
     //   "action": "subscribe",
     // }
 
+    // For TRS markets
+    // const subscription_request = {
+    //   "symbol": "TRS-BTC-USD-8H",
+    //   "quantity": {
+    //     "token": "BTC",
+    //     "levels": [1.0]
+    //   },
+    //   "request_id": "my_request_3",
+    //   "action": "subscribe",
+    // }
+
     this.connection.send(JSON.stringify(subscription_request));
   }
 
@@ -171,6 +182,13 @@ class FXClient {
     //   "quote_token": "USD",
     //   "tenor": "T0",
     //   "request_id": "my_request_2",
+    //   "action": "unsubscribe",
+    // }
+
+    // For TRS markets
+    // const subscription_request = {
+    //   "symbol": "TRS-BTC-USD-8H",
+    //   "request_id": "my_request_3",
     //   "action": "unsubscribe",
     // }
 
