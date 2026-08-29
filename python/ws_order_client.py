@@ -164,7 +164,7 @@ class FalconxWSClient:
         )
         
         if self.ssl_enabled:
-            self.ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
+            self.ws.run_forever(sslopt={"cert_reqs": ssl.CERT_REQUIRED})
         else:
             self.ws.run_forever()
             

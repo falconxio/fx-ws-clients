@@ -6,7 +6,6 @@ package main
 import (
 	"crypto/hmac"
 	"crypto/sha256"
-	"crypto/tls"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
@@ -136,8 +135,7 @@ func (fws *FalconxWSClient) EnableRetry(retryDelayInSeconds uint64, numOfRetries
 }
 
 func (fws *FalconxWSClient) Connect() {
-	dialer := websocket.DefaultDialer
-	dialer.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	dialer := *websocket.DefaultDialer
 
 	var url string
 	if fws.SSL {
