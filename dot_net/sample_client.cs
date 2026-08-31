@@ -17,19 +17,39 @@ namespace FXWSClient.Sample
   public class SubscribeRequest
   {
     public string action { get; set; } = "subscribe";
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? base_token { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? quote_token { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public string? symbol { get; set; }
+
     public Quantity? quantity { get; set; }
     public string? request_id { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? tenor { get; set; }
   }
 
   public class UnSubscribeRequest
   {
     public string action { get; set; } = "subscribe";
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? base_token { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? quote_token { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+    public string? symbol { get; set; }
+
     public string? request_id { get; set; }
+
+    [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public string? tenor { get; set; }
   }
 
@@ -145,6 +165,19 @@ namespace FXWSClient.Sample
         //   tenor = "T0"
         // };
 
+        // For TRS markets
+        // SubscribeRequest subscriberequest = new SubscribeRequest
+        // {
+        //   action = "subscribe",
+        //   symbol = "TRS-BTC-USD-8H",
+        //   quantity = new Quantity
+        //   {
+        //     token = "BTC",
+        //     levels = new double[] { 1.0 }
+        //   },
+        //   request_id = "my_sample_request_3"
+        // };
+
         Console.WriteLine(JsonConvert.SerializeObject(subscriberequest));
         var encoded = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(subscriberequest));
         var buffer = new ArraySegment<Byte>(encoded, 0, encoded.Length);
@@ -179,6 +212,14 @@ namespace FXWSClient.Sample
         //   quote_token = "USD",
         //   request_id = "my_sample_request_2",
         //   tenor = "T0"
+        // };
+
+        // For TRS markets
+        // UnSubscribeRequest unSubscriberequest = new UnSubscribeRequest
+        // {
+        //   action = "unsubscribe",
+        //   symbol = "TRS-BTC-USD-8H",
+        //   request_id = "my_sample_request_3"
         // };
 
         Console.WriteLine(JsonConvert.SerializeObject(unSubscriberequest));

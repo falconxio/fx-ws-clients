@@ -166,6 +166,17 @@ class FalconXWSClient:
         #     "action": "subscribe",
         # }
 
+        # For TRS markets
+        # subscription_request = {
+        #     "symbol": "TRS-BTC-USD-8H",
+        #     "quantity": {
+        #         "token": "BTC",
+        #         "levels": [1.0]
+        #     },
+        #     "request_id": "my_request_3",
+        #     "action": "subscribe",
+        # }
+
         self.conn.send(data=json.dumps(subscription_request))
 
     def unsubscribe(self, base_token, quote_token):
@@ -183,6 +194,13 @@ class FalconXWSClient:
         #     "quote_token": "USD",
         #     "tenor": "T0",
         #     "request_id": "my_request_2",
+        #     "action": "unsubscribe",
+        # }
+
+        # For TRS markets
+        # unsubscription_request = {
+        #     "symbol": "TRS-BTC-USD-8H",
+        #     "request_id": "my_request_3",
         #     "action": "unsubscribe",
         # }
 

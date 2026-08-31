@@ -77,17 +77,23 @@ public class FalconxWSClient {
   }
 
   public String Subscribe(Session session) {
+    // For crypto pairs
     List<Double> cryptoLevels = new ArrayList<>();
     cryptoLevels.add(0.5);
     cryptoLevels.add(1.0);
     cryptoLevels.add(5.0);
-    SubscribeRequest request = new SubscribeRequest("ETH", "USD", "ETH", cryptoLevels, "my_subscribe_request_1");
+    SubscribeRequest request = new SubscribeRequest("ETH", "USD", null, "ETH", cryptoLevels, "my_subscribe_request_1", null);
 
     // For forex pairs
     // List<Double> forexLevels = new ArrayList<>();
     // forexLevels.add(500.0);
     // forexLevels.add(10000.0);
-    // SubscribeRequest request = new SubscribeRequest("EUR", "USD", "EUR", forexLevels, "my_subscribe_request_2", "T0");
+    // SubscribeRequest request = new SubscribeRequest("EUR", "USD", null, "EUR", forexLevels, "my_subscribe_request_2", "T0");
+
+    // For TRS markets
+    // List<Double> trsLevels = new ArrayList<>();
+    // trsLevels.add(1.0);
+    // SubscribeRequest request = new SubscribeRequest(null, null, "TRS-BTC-USD-8H", "BTC", trsLevels, "my_subscribe_request_3", null);
 
     ObjectMapper mapper = new ObjectMapper();
     try {
@@ -111,10 +117,13 @@ public class FalconxWSClient {
 
   public String UnSubscribe(Session session) {
     // For crypto pairs
-    UnSubscribeRequest request = new UnSubscribeRequest("ETH", "USD", "my_unsubscribe_request");
-    
+    UnSubscribeRequest request = new UnSubscribeRequest("ETH", "USD", null, "my_unsubscribe_request", null);
+
     // For forex pairs
-    // UnSubscribeRequest request = new UnSubscribeRequest("EUR", "USD", "my_unsubscribe_request_2", "T0");
+    // UnSubscribeRequest request = new UnSubscribeRequest("EUR", "USD", null, "my_unsubscribe_request_2", "T0");
+
+    // For TRS markets
+    // UnSubscribeRequest request = new UnSubscribeRequest(null, null, "TRS-BTC-USD-8H", "my_unsubscribe_request_3", null);
     ObjectMapper mapper = new ObjectMapper();
     try {
       return mapper.writeValueAsString(request);
